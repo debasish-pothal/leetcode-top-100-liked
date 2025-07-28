@@ -12,7 +12,8 @@
  * @return {number}
  */
 var kthSmallest = function (root, k) {
-  const arr = [];
+  let result;
+  let count = 0;
 
   const traverse = (node) => {
     if (!node) {
@@ -20,11 +21,17 @@ var kthSmallest = function (root, k) {
     }
 
     traverse(node.left);
-    arr.push(node.val);
+    count++;
+
+    if (count === k) {
+      result = node.val;
+      return;
+    }
+
     traverse(node.right);
   };
 
   traverse(root);
 
-  return arr[k - 1];
+  return result;
 };
