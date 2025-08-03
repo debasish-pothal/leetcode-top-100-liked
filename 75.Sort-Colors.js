@@ -3,33 +3,34 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var sortColors = function (nums) {
-  const map = new Map();
+  let left = 0;
+  let right = nums.length - 1;
+  let p = 0;
 
-  for (const num of nums) {
-    map.set(num, (map.get(num) || 0) + 1);
+  while (p < nums.length) {
+    if (nums[p] === 0) {
+      [nums[p], nums[left]] = [nums[left], nums[p]];
+
+      left += 1;
+      p = left;
+    } else {
+      p += 1;
+    }
   }
 
-  let zeroCount = map.get(0);
-  let oneCount = map.get(1);
-  let twoCount = map.get(2);
-
-  let index = 0;
-
-  while (zeroCount) {
-    nums[index] = 0;
-    index++;
-    zeroCount--;
+  while (nums[right] === 2) {
+    right -= 1;
   }
 
-  while (oneCount) {
-    nums[index] = 1;
-    index++;
-    oneCount--;
-  }
+  p = left;
 
-  while (twoCount) {
-    nums[index] = 2;
-    index++;
-    twoCount--;
+  while (p < right) {
+    if (nums[p] === 2) {
+      [nums[p], nums[right]] = [nums[right], nums[p]];
+
+      right -= 1;
+    } else {
+      p += 1;
+    }
   }
 };
