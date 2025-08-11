@@ -3,25 +3,21 @@
  * @return {number}
  */
 var trap = function (height) {
+  let left = 0;
+  let right = height.length - 1;
+  let leftMax = height[left];
+  let rightMax = height[right];
   let water = 0;
-  const length = height.length;
-  const maxLeft = new Array(length).fill(0);
-  const maxRight = new Array(length).fill(0);
 
-  for (let i = 1; i < length; i++) {
-    maxLeft[i] = Math.max(maxLeft[i - 1], height[i - 1]);
-  }
-
-  for (i = length - 2; i >= 0; i--) {
-    maxRight[i] = Math.max(maxRight[i + 1], height[i + 1]);
-  }
-
-  console.log(maxRight);
-
-  for (let i = 0; i < length; i++) {
-    const diff = Math.min(maxLeft[i], maxRight[i]) - height[i];
-    if (diff >= 0) {
-      water += diff;
+  while (left < right) {
+    if (leftMax < rightMax) {
+      left += 1;
+      leftMax = Math.max(leftMax, height[left]);
+      water += leftMax - height[left];
+    } else {
+      right -= 1;
+      rightMax = Math.max(rightMax, height[right]);
+      water += rightMax - height[right];
     }
   }
 
