@@ -4,23 +4,22 @@
  */
 var dailyTemperatures = function (temperatures) {
   const n = temperatures.length;
-  const result = [];
+  const stack = [];
+  const result = new Array(n).fill(0);
 
   for (let i = 0; i < n; i++) {
-    let count = 0;
-    let found = false;
-    for (let j = i + 1; j < n; j++) {
-      count += 1;
+    const pair = { val: temperatures[i], index: i };
+    const top = stack[stack.length - 1];
 
-      if (temperatures[j] > temperatures[i]) {
-        result.push(count);
-        found = true;
-        break;
+    if (top && top.val < pair.val) {
+      while (stack.length && stack[stack.length - 1].val < pair.val) {
+        const topPair = stack.pop();
+        result[topPair.index] = pair.index - topPair.index;
       }
-    }
 
-    if (!found) {
-      result.push(0);
+      stack.push(pair);
+    } else {
+      stack.push(pair);
     }
   }
 
